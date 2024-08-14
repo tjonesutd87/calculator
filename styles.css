@@ -1,0 +1,25 @@
+body{
+    color:black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    margin: 100px auto;
+}
+.operator{
+    background-color: orange;
+}
+#equals {
+    background-color: orange;
+}
+#display {
+    background-color: darkgray;
+    text-align:right;
+    padding: 0px 10px;
+}
+#calc-body{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
