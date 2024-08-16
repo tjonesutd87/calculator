@@ -155,9 +155,8 @@ percentBtn.addEventListener('click', ()=> {
             displayValue.textContent = arr.join('');
         }
         displayValue.textContent = parseFloat(displayValue.textContent);
-        Math.round(displayValue.textContent * 100) / 100;
     }
-})
+});
 		
 //  add event listener dot button that converts display value to a new array with each character as a separate array item
 //  it then searches for an existing dot symbol and adds one if none is found
@@ -175,8 +174,10 @@ dotBtn.addEventListener('click', ()=> {
 equalBtn.addEventListener('click', ()=>{
     if(op !== '') {
         num2 = displayValue.textContent;
-        operate(num1, num2, op)
-        num1 = '', num2 = '', op = '';
+        operate(num1, num2, op);
+        num1 = '';
+        num2 = '';
+        op = '';
     }
 });
 
