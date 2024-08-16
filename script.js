@@ -15,6 +15,7 @@ const operatorBtn = Array.from(document.getElementsByClassName('operator'));
 const equalBtn = document.getElementById('equals');
 const percentBtn = document.getElementById('percent');
 const dotBtn = document.getElementById('dot');
+const negBtn = document.getElementById('negative');
 
 // takes the given operator and num1 num2 values, then turns the num1, num2 string values into a floating point num
 // switch case determines what the current operator is and does an equation based on the current operator
@@ -32,7 +33,7 @@ function operate(num1, num2, op) {
             break;
         case '/':
             if (num2 == 0){
-                result = 'Error! Cannot divide by zero!';
+                result = 'ERROR! CAN\'T DIVIDE BY 0!';
                 isCalculating = false;
                 divideByZero = true;
             } else {
@@ -61,13 +62,13 @@ clearBtn.addEventListener('click', () => {
     divideByZero = false;
 });
 
-//  numBtn adds listeners to each digit button that will update the display by adding the digit pressed to the end of the display string
+//  adds listeners to each digit button that will update the display by adding the digit pressed to the end of the display string
 //  but only if the display isn't set to 0 and the button pressed is 0, or if the isCalculating toggle is true
 //  if there is a current operator assigned, then it will replace the display with the button pressed and set opAssigned to false
 numBtn.forEach(number => {
     number.addEventListener('click', () => {
         let btnNum = number.innerHTML;
-        if(isCalculating === true || (displayValue.textContent === '0' && btnNum === 0)){
+        if(isCalculating === true || (displayValue.textContent === '0' && btnNum === 0 || displayValue.textContent.length >= 21)){
             return;
         } else {
             if (opAssigned === true) {
@@ -84,8 +85,6 @@ numBtn.forEach(number => {
         }
     });
 });
-
-
 
 //  backspace button checks if isCalculating is true, and if not it will update the display with
 //  a new string with the last character sliced off. if there is only a single character, then set display to 0
@@ -108,8 +107,6 @@ operatorBtn.forEach(operator => {
         if(op !== '') {
             num2 = displayValue.textContent;
             operate(num1, num2, op);
-            console.log('num1: ' + num1);
-            console.log('num2: ' + num2);
         } else {
             num1 = displayValue.textContent;
         }
@@ -119,31 +116,29 @@ operatorBtn.forEach(operator => {
     });
 });
 	
-// add event listener percent button
-// 	if display value not equal to 0
-// 		display value to array
-// 		if display value length = 1
-// 			shift two zeroes into display value
-// 		else if display value length = 2
-// 			shift one zero into display value
-// 		slice a period before the last character
-// 		display value to string
-
+// add event listener percent button that will turn the current display value into the same percentage value in decimal (eg 9 becomes 9% or .09)
 percentBtn.addEventListener('click', ()=> {
+    //  setup a toggle to determine if the original display value is negative
     let neg = false;
+
+    // if display value is 0 do nothing
     if(displayValue.textContent == '0') {
         return;
     } else {
         let arr = displayValue.textContent.split('');
+        //  check if display value is negative, if so remove the negation identifier (-) to work with the value as a positive number
+        //  set negative value toggle true so we know to change it back to negative after all other steps in this function have run
         if(displayValue.textContent < 0) {
             arr.shift();
             neg = true;
         }
+        //  if value is less than 10, add two zeros to the front of the number, if it is less than 100 add one zero
         if(displayValue.textContent < 10) {
             arr.unshift('0', '0');
         } else if(displayValue.textContent < 100) {
             arr.unshift('0');
         }
+        //  check if the number is already in decimal format, if so then move the decimal up two places.
         if(arr.indexOf('.') == -1) {
             arr.splice((arr.length-2), 0, '.');
         } else {
@@ -151,13 +146,16 @@ percentBtn.addEventListener('click', ()=> {
             arr.splice((i), 1);
             arr.splice((i-2), 0, '.'); 
         }
+        //  check if negative number toggle is true, if so then add a negation identier (-) to the beginning of
+        //  the array then join the array into a single string. If not, then just join array. Set display value as array.
         if(neg == true) {
             arr.unshift('-');
             displayValue.textContent = arr.join('');
         } else {
             displayValue.textContent = arr.join('');
         }
-
+        displayValue.textContent = parseFloat(displayValue.textContent);
+        Math.round(displayValue.textContent * 100) / 100;
     }
 })
 		
@@ -165,13 +163,13 @@ percentBtn.addEventListener('click', ()=> {
 //  it then searches for an existing dot symbol and adds one if none is found
 dotBtn.addEventListener('click', ()=> {
     let arr = displayValue.textContent.split('');
-    console.log(arr);
-    if((arr.indexOf('.')) !== -1){
+    if((arr.indexOf('.')) !== -1 || opAssigned == true || isCalculating == true){
         return;
     } else {
         displayValue.textContent += '.';
     }
 });
+
 // add event listener equals button which assigns the current display value to num2 and then runs operate
 // after operate is run it sets num1, num2, and op back to empty strings
 equalBtn.addEventListener('click', ()=>{
@@ -179,5 +177,23 @@ equalBtn.addEventListener('click', ()=>{
         num2 = displayValue.textContent;
         operate(num1, num2, op)
         num1 = '', num2 = '', op = '';
+    }
+});
+
+// add event listener equals button which assigns the current display value to num2 and then runs operate
+// after operate is run it sets num1, num2, and op back to empty strings
+negBtn.addEventListener('click', ()=>{
+    if(opAssigned == true || displayValue.textContent == '0') {
+        opAssigned = false;
+        num1 = displayValue.textContent;
+        displayValue.textContent = '-';
+    }else {
+        if(displayValue.textContent.indexOf('-') == -1) {
+            displayValue.textContent = '-' + displayValue.textContent;
+        } else {
+            let arr = displayValue.textContent.split('');
+            arr.shift('-');
+            displayValue.textContent = arr.join('');
+        }
     }
 });
