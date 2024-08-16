@@ -2,41 +2,45 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Etch-A-Sketch</title>
+        <title>Calculator</title>
         <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Quantico&family=Rubik+Mono+One&display=swap" rel="stylesheet">
     </head>
     <body>
         <div id="calc-body">
-            <div id="display"><p id="display-text">78924587452</p></div>
+            <div id="display"><p id="display-text">0</p></div>
             <div id="buttons">
                 <div class="button-row">
                     <button id="clear">AC</button>
                     <button id="percent">%</button>
-                    <button id="divide">/</button>
+                    <button id="negative">-/+</button>
+                    <button class="operator" id="/">&#xF7;</button>
                 </div>
                 <div class="button-row">
-                    <button id="7">7</button>
-                    <button id="8">8</button>
-                    <button id="9">9</button>
-                    <button id="multiply">X</button>
+                    <button class="number">7</button>
+                    <button class="number">8</button>
+                    <button class="number">9</button>
+                    <button class="operator" id="*">X</button>
                 </div>
                 <div class="button-row">
-                    <button id="4">4</button>
-                    <button id="5">5</button>
-                    <button id="6">6</button>
-                    <button id="subtract">-</button>
+                    <button class="number">4</button>
+                    <button class="number">5</button>
+                    <button class="number">6</button>
+                    <button class="operator" id="-">-</button>
                 </div>
                 <div class="button-row">
-                    <button id="1">1</button>
-                    <button id="2">2</button>
-                    <button id="3">3</button>
-                    <button id="add">+</button>
+                    <button class="number">1</button>
+                    <button class="number">2</button>
+                    <button class="number">3</button>
+                    <button class="operator" id="+">+</button>
                 </div>
                 <div class="button-row">
-                    <button id="0">0</button>
+                    <button class="number">0</button>
                     <button id="dot">.</button>
-                    <button id="backspace">X</button>
-                    <button id="calculate">=</button>
+                    <button id="backspace">C</button>
+                    <button id="equals">=</button>
                 </div>
             </div>
         </div>
